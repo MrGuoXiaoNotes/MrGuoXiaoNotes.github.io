@@ -1,32 +1,56 @@
-# 推荐使用 GitHub Actions 自动构建部署，无需手动提交 public 文件夹
-name: Deploy Hugo Site to GitHub Pages
+name: Deploy Hugo Site to Pages
 
 on:
   push:
     branches:
-      - main  # 监听 main 分支的推送事件
+      - main
+  # 允许手动触发
+  workflow_dispatch:
+
+# **重点配置：设置权限**
+permissions:
+  contents: read
+  pages: write # 必须有 pages 权限才能部署
+  id-token: write # 必须有 id-token 权限进行 OIDC 认证
+
+# 确保在同一时间只有一个部署正在进行
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
         with:
-          submodules: true  # 确保子模块主题也被拉取
+          submodules: true
           fetch-depth: 0
 
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
+      - name: Setup Hugo 🔧
+        uses: peaceiris/actions-hugo@v3 # 升级到 v3
         with:
           hugo-version: 'latest'
           extended: true
 
-      - name: Build
-        run: hugo --minify
+      - name: Build 🔨
+        # 确保 public 目录干净
+        run: hugo --minify --baseURL ${{ secrets.HUGO_BASE_URL || '/' }} 
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+      # **官方部署步骤开始**
+      - name: Setup Pages ⚙️
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact 📤
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public # 发布 public 文件夹内容
-          # publish_branch: gh-pages # 如果您使用 gh-pages 分支，则取消注释
+          path: ./public # 上传 Hugo 构建的 public 文件夹内容
+
+      - name: Deploy to GitHub Pages 🚀
+        id: deployment
+        uses: actions/deploy-pages@v4
+        # **注意：这里不再需要传入 github_token**
