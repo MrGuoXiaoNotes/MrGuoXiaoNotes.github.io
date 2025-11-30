@@ -1,0 +1,8 @@
+.DS_Store
+
+# Hugo files
+/public
+
+
+# Node modules
+/node_modules/

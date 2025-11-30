@@ -4,4 +4,6 @@ title = '郭小先生 | 俗闻手记'
 content = "我是郭小先生，一位社会观察者和记录者。这里是我整理和发布社会纪实类文章的数字空间。"
 theme = 'PaperMod'
 
-
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'
