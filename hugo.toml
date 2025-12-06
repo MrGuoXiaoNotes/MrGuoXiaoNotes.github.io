@@ -10,19 +10,19 @@ theme = 'PaperMod'
 
 [[menu.main]]
     identifier = "social"
-    name = "社会观察"
+    name = "🔬 社会观察"
     url = "/social/"
     weight = 10
 
 [[menu.main]]
     identifier = "life"
-    name = "人生感悟"
+    name = "💭 人生感悟"
     url = "/life/"
     weight = 20
 
 [[menu.main]]
     identifier = "lab"
-    name = "实验室"
+    name = "🤖 实验室"
     url = "/lab/"
     weight = 30
 
