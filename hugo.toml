@@ -7,3 +7,36 @@ theme = 'PaperMod'
 [caches]
   [caches.images]
     dir = ':cacheDir/images'
+
+[[menu.main]]
+    identifier = "social"
+    name = "社会观察"
+    url = "/social/"
+    weight = 10
+
+[[menu.main]]
+    identifier = "life"
+    name = "人生感悟"
+    url = "/life/"
+    weight = 20
+
+[[menu.main]]
+    identifier = "lab"
+    name = "实验室"
+    url = "/lab/"
+    weight = 30
+
+[[menu.main]]
+    identifier = "about"
+    name = "👨🏻‍💻 关于"
+    url = "/about/"
+    weight = 40
+
+[[menu.main]]
+    identifier = "search"
+    name = "🔍 搜索"
+    url = "/search/"
+    weight = 50
+
+[outputs]
+    home = ["HTML", "RSS", "JSON"]
